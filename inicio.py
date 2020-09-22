@@ -1,9 +1,15 @@
+# Andrés Cortez, Fernando Lavarreda, Valeria Paiz, Alejandro Ortega
+# Universidad del Valle, Programacion Orientada a Objetos
 
 import tkinter as tk
 import tkinter.font as tf
 import tkinter.ttk as ttk
 from PIL import ImageTk, Image
 import preguntas as pg
+
+# Ventana de inicio de la aplicacion toma como argumentos un objeto LecuraArchivos
+# Punto de partida para el usuario
+
 
 class App(tk.Tk):
     def __init__(self, lectura):
@@ -33,3 +39,44 @@ class App(tk.Tk):
     def preguntas(self):
         """Generar GUI con el cuestionario, pasando objeto LecturaArchivos"""
         preguntas = pg.MyApp(self.lectura)
+
+
+class Instructions(tk.Toplevel):
+    def __init__(self):
+        """Inicializar objeto que muestra las instrucciones del programa"""
+        super().__init__()
+        self.grab_set()
+        self.geometry("345x300")
+        self.iconbitmap("resources/meditation.ico")
+        self.txt = tk.Text(self, width=250, height=260)
+        self.txt.pack()
+        self.description = """
+Bienveni@ a Mindullness GT
+----------------------------
+
+Acerca de nosotros.......
+Nuestro propósito........
+
+Instrucciones:
+    1. Llenar Cuestionario
+    2. Hacer diagnóstico
+    3. Obtener Resultados
+    4. Realizar Tratamiento
+
+¿Cómo llenar el Cuestionario?
+    -Lee cada uno de los ítems atentamente 
+    e indica cuánto le ha afectado 
+    en la última semana. 
+    (0 siendo nada - 3 siendo extremo)       
+        """
+        self.fill_it()
+
+    def fill_it(self):
+        """Proveer del texto a las instrucciones"""
+        self.txt.insert(tk.END, self.description)
+
+
+if __name__ == "__main__":
+    pass    
+# app = App()
+# app.mainloop()
