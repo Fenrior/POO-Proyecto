@@ -5,3 +5,8 @@
 
 import inicio as st
 import analytics as ant
+
+lectura = ant.LecturaArchivos()
+lectura.leer_preguntas("resources/prueba1.txt")
+aplicacion = st.App(lectura)
+aplicacion.mainloop()
