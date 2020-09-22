@@ -95,4 +95,112 @@ class Enfermedad:
         return self.valorActual
 
 
- ## Falta trabajar en LeturaArchivos
+# Lectura de archivos de texto para crear preguntas y un Diagnostico
+# Los archivos de texto contienen en un encabezado la descripcion de las enfermedades
+# El encodicicamiento de cada una de ellas sigue el patron Nombre,identificador,umbral;Nombre2,...
+# Luego las preguntas siguen el patron: identificadorPreguntaGenerica
+
+class LecturaArchivos:
+    def __init__(self):
+        """Crear objeto LecturaArchivos para manejar logica de la aplicacion"""
+        self.preguntas = {}
+        self.respuestas = {}
+        self.diagnosis = Diagnostico()
+        pass
+
+    def leer_preguntas(self, ruta):
+        """Leer preguntas de un archivo de texto"""
+        with open(ruta, "r") as fl:
+            descripcion = fl.readline().split(";")
+            for enf in descripcion:
+                enfermedad = enf.split(",")
+                self.preguntas[enfermedad[0]] = [enfermedad[1][0], int(enfermedad[2][0:2])]
+            preguntas = fl.readlines()
+            for pregunta in preguntas:
+                for key, value in self.preguntas.items():
+                    if pregunta[0] in value[0]:
+                        self.preguntas[key].append(pregunta[1:len(pregunta)-1])
+        self.actualizar_diagnostico()
+
+    def ver_preg(self):
+        """Obtener informacion acerca de las enfermedades y el encodificamiento de la informacion"""
+        print(self.preguntas)
+
+    def ver_preguntas(self):
+        """Ver preguntas de la aplicacion"""
+        preguntas = []
+        for value in self.preguntas.values():
+            preguntas += value[2:]
+        return preguntas
+
+    def clamp_respuestas(self, listado_respuestas):
+        """Juntar las preguntas para determinar un diagnóstico"""
+        i = 0
+        for key in self.preguntas.keys():
+            self.respuestas[key] = sum(listado_respuestas[i:len(self.preguntas[key])-2+i])
+            i += len(self.preguntas[key])-2
+        self.actualizar_diagnostico(False)
+
+    def actualizar_diagnostico(self, enfermedades=True):
+        """Actualizar objeto Diagnostico 'self.diagnosis' en base a lectura de archivos de texto """
+        if enfermedades:
+            for key, value in self.preguntas.items():
+                self.diagnosis.add_enfermedad(key, value[1])
+        else:
+            for key, value in self.respuestas.items():
+                self.diagnosis.aumento_enfermedad(value, key)
+
+    def ver_diagnostico(self, conoce=False, enfermedad=""):
+        """Obtener diagnostico del usuario"""
+        informacion = {}
+        if not conoce:
+            positivos = self.diagnosis.ver_diagnostico()
+        else:
+            positivos = [enfermedad]
+        if positivos:
+            for positivo in positivos:
+                with open("resources/"+positivo + ".txt", "r") as fd:
+                    descripcion = fd.readlines()
+                    informacion[positivo] = [d[:-2] for d in descripcion]
+        else:
+            informacion["No se Diagnostico nada"] = [""]*22
+        return informacion
+
+    def set_to_zero(self):
+        """Resetear los valores actuales de las enfermedades"""
+        self.diagnosis.clear()
+
+    def grabar_info(self, info, path, wks):
+        """Grabar informacion obtenida a Drive, parametros: informacion, direccion credenciales y nombre de archivo"""
+        if self.check_connection():
+            try:
+                cliente = self.access(path)
+                sheet = cliente.open(wks).sheet1
+                diagnosticos = sheet.col_values(1)
+                fechas = sheet.col_values(2)
+                sheet.update_cell(row=len(diagnosticos)+1, col=1, value=info)
+                sheet.update_cell(row=len(fechas)+1, col=2, value=datetime.now().strftime("%d/%m/%Y %H:%M:%S"))
+            except Exception:
+                pass
+
+    def check_connection(self):
+        """Vericar conneccion a Internet, retorna bool"""
+        try:
+            socket.getaddrinfo("google.com", "321")
+        except socket.gaierror:
+            connection = False
+        else:
+            connection = True
+        return connection
+
+    def access(self, json_description):
+        """Proveer Json file path de GoogleCredentials"""
+        client = gs.service_account(filename=json_description)
+        return client
+
+
+if __name__ == "__main__":
+    prueba = LecturaArchivos()
+    prueba.leer_preguntas("resources/prueba1.txt")
+    prueba.ver_preg()
+    print(prueba.ver_preguntas())
