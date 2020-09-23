@@ -92,4 +92,18 @@ class Questions(tk.Canvas):
         self.display = lectura.ver_preguntas()
         self.respuestas = [tk.IntVar() for _ in self.display]
 
-      #EN PROCESO
+        j = 1
+        for i in range(0, len(self.display)-1):
+            lb = tk.Label(self.frame, text=self.display[i+1], font=font_1, bg="#caf1de", justify=tk.LEFT)
+            lb.grid(row=j, column=0, columnspan=5, sticky=tk.W+tk.E)
+            for ix in range(4):
+                rd = tk.Radiobutton(self.frame, text=f"{ix}", variable=self.respuestas[i], value=ix, bg=color)
+                rd.grid(row=j+1, column=ix)
+            j += 2
+        master.update_idletasks()
+
+
+if __name__ == "__main__":
+    pass
+# yy = MyApp()
+# yy.mainloop()
