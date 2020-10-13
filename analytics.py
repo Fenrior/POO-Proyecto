@@ -178,8 +178,11 @@ class LecturaArchivos:
                 sheet = cliente.open(wks).sheet1
                 diagnosticos = sheet.col_values(1)
                 fechas = sheet.col_values(2)
-                sheet.update_cell(row=len(diagnosticos)+1, col=1, value=info)
-                sheet.update_cell(row=len(fechas)+1, col=2, value=datetime.now().strftime("%d/%m/%Y %H:%M:%S"))
+                sheet.update_cell(row=len(fechas)+1, col=1, value=datetime.now().strftime("%d/%m/%Y %H:%M:%S"))
+                i = 0
+                for val in info:
+                    sheet.update_cell(row=len(diagnosticos)+1, col=2+i, value=val)
+                    i+=1
             except Exception:
                 pass
 

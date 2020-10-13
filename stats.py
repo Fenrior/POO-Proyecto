@@ -24,6 +24,9 @@ class ManejoInfo:
             else:
                 self.vals1 = sheet.col_values(1)
                 self.vals2 = sheet.col_values(2)
+                self.vals3 = sheet.col_values(3)
+                self.vals4 = sheet.col_values(4)
+                self.vals5 = sheet.col_values(5)
                 self.downloaded = True
                 
         
@@ -38,7 +41,7 @@ class ManejoInfo:
 
     def bar_graph(self):
         all_diseases = {}
-        for value in self.vals1:
+        for value in self.vals2:
             if "|" in value:
                 diseases = value.split("|")
                 for d in diseases:
