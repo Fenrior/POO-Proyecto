@@ -6,6 +6,7 @@ import tkinter.font as tf
 import tkinter.ttk as ttk
 from PIL import ImageTk, Image
 import preguntas as pg
+import user_reg as usr
 
 # Ventana de inicio de la aplicacion toma como argumentos un objeto LecuraArchivos
 # Punto de partida para el usuario
@@ -38,7 +39,10 @@ class App(tk.Tk):
 
     def preguntas(self):
         """Generar GUI con el cuestionario, pasando objeto LecturaArchivos"""
-        preguntas = pg.MyApp(self.lectura)
+        ol = usr.Login(self)
+        ingreso = ol.inicio()
+        if ingreso[0]:
+            preguntas = pg.MyApp(self.lectura, ingreso[0])
 
 
 class Instructions(tk.Toplevel):

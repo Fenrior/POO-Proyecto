@@ -3,6 +3,7 @@
 import socket
 import gspread as gs
 from datetime import datetime
+import crear_datos as sd
 
 # Clase que almacena multiples Enfermedades y provee de un diagnostico
 # Determina si las enfermedades se padecen o no al introducirle datos
@@ -170,36 +171,11 @@ class LecturaArchivos:
         """Resetear los valores actuales de las enfermedades"""
         self.diagnosis.clear()
 
-    def grabar_info(self, info, path, wks):
+    def grabar_info(self, usuario, diagnostico):
         """Grabar informacion obtenida a Drive, parametros: informacion, direccion credenciales y nombre de archivo"""
-        if self.check_connection():
-            try:
-                cliente = self.access(path)
-                sheet = cliente.open(wks).sheet1
-                diagnosticos = sheet.col_values(1)
-                fechas = sheet.col_values(2)
-                sheet.update_cell(row=len(fechas)+1, col=1, value=datetime.now().strftime("%d/%m/%Y %H:%M:%S"))
-                i = 0
-                for val in info:
-                    sheet.update_cell(row=len(diagnosticos)+1, col=2+i, value=val)
-                    i+=1
-            except Exception:
-                pass
+        bs_datos = sd.BaseDatos("resources/datos.db")
+        bs_datos.new_log(usuario, diagnostico, datetime.now().strftime("%d/%m/%Y %H:%M:%S"))
 
-    def check_connection(self):
-        """Vericar conneccion a Internet, retorna bool"""
-        try:
-            socket.getaddrinfo("google.com", "321")
-        except socket.gaierror:
-            connection = False
-        else:
-            connection = True
-        return connection
-
-    def access(self, json_description):
-        """Proveer Json file path de GoogleCredentials"""
-        client = gs.service_account(filename=json_description)
-        return client
 
 
 if __name__ == "__main__":

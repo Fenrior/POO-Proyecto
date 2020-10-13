@@ -12,10 +12,11 @@ import resultados as rt
 
 
 class MyApp(tk.Toplevel):
-    def __init__(self, lectura):
+    def __init__(self, lectura, usuario):
         super().__init__()
         self.grab_set()
         self.lectura = lectura
+        self.user = usuario
         # -----------------General Look for the App------------------------------ #
         fonta = tf.Font(size=15, family="Helvetica", weight="bold")
         font3 = tf.Font(size=12, family="Courier", weight="bold")
@@ -54,8 +55,6 @@ class MyApp(tk.Toplevel):
         self.canv.grid(row=3, column=6)
 
         self.fran.grid(row=3, column=1, columnspan=4)
-        self.confirm = tk.IntVar()
-        tk.Checkbutton(self, text="Compartir informacion", variable=self.confirm, bg="#3cb371").grid(row=5, column=1, columnspan=2)
         self.submit = ttk.Button(self, text="Obtener Diagnóstico", command=self.ver).grid(row=5, column=3, columnspan=2)
         self.kk.grid(row=2, column=6)
         self.scroll_canvas.grid(row=3, column=5, padx=(0, 50))
@@ -65,13 +64,9 @@ class MyApp(tk.Toplevel):
         respondido = [valor.get() for valor in self.fran.respuestas]
         self.lectura.clamp_respuestas(respondido)
         
-        inf = ["n", "n", "n"]
-        if self.confirm.get():
-            user = Informacion(self)
-            inf = user.cierre()
 
         info = self.lectura.ver_diagnostico()
-        self.lectura.grabar_info(['|'.join(list(info.keys()))]+inf, "resources/creds.json", "Mindfulness")
+        self.lectura.grabar_info(self.user,'|'.join(list(info.keys())))
         self.lectura.set_to_zero()
         llaves = list(info.keys()).copy()
         ventana_diagnostico = rt.Second(llaves[0], info[llaves[0]], info)
@@ -80,13 +75,7 @@ class MyApp(tk.Toplevel):
     def ver2(self, *args):
         """Visualizar enfermedad cuando el paciente sabe que es lo que tiene"""
         seleccion = self.kk.get()
-
-        inf = ["n", "n", "n"]
-        if self.confirm.get():
-            user = Informacion(self)
-            inf = user.cierre()
-
-        self.lectura.grabar_info([seleccion]+inf, "resources/creds.json", "Mindfulness")
+        self.lectura.grabar_info(self.user, seleccion)
         if seleccion in self.options:
             info = self.lectura.ver_diagnostico(True, seleccion)
             ventana_diagnostico = rt.Second(seleccion, info[seleccion], info)
@@ -117,46 +106,6 @@ class Questions(tk.Canvas):
         master.update_idletasks()
 
 
-# Clase para agregar informacion adicional acerca del usuario
-
-class Informacion(tk.Toplevel):
-    def __init__(self, parent, color="#5cdbc4"):
-        super().__init__(parent)
-        self.title("Informacion")
-        self.iconbitmap("resources/meditation.ico")
-        self.config(bg=color)
-        self.sexo = tk.StringVar()
-        self.edad = tk.StringVar()
-        self.ingresos = tk.StringVar()
-        tk.Label(self, text="Sexo: ", bg="#84d44e", justify=tk.LEFT).grid(row=1, column=0, sticky=tk.W+tk.E)
-        tk.Radiobutton(self, text="Masculino", variable=self.sexo, value="m", bg=color).grid(row=2, column=0, columnspan=2, sticky=tk.W)
-        tk.Radiobutton(self, text="Femenino ", variable=self.sexo, value="f", bg=color).grid(row=2, column=2, columnspan=2, sticky=tk.W)
-        tk.Radiobutton(self, text="N/A", variable=self.sexo, value="n", bg=color).grid(row=2, column=4)
-
-        tk.Label(self, text="Edad: ", bg="#84d44e", justify=tk.LEFT).grid(row=3, column=0, sticky=tk.W+tk.E)
-        tk.Radiobutton(self, text="<17", variable=self.edad, value="<17", bg=color).grid(row=4, column=0, sticky=tk.W)
-        tk.Radiobutton(self, text="17-25", variable=self.edad, value="17-25", bg=color).grid(row=4, column=1)
-        tk.Radiobutton(self, text="26-39", variable=self.edad, value="26-39", bg=color).grid(row=4, column=2)
-        tk.Radiobutton(self, text="40-60", variable=self.edad, value="40-60", bg=color).grid(row=4, column=3)
-        tk.Radiobutton(self, text="60<", variable=self.edad, value="60<", bg=color).grid(row=4, column=4)
-        tk.Radiobutton(self, text="N/A", variable=self.edad, value="n", bg=color).grid(row=4, column=5)
-
-        tk.Label(self, text="Ingresos: ", bg="#84d44e", justify=tk.LEFT).grid(row=5, column=0, sticky=tk.W+tk.E)
-        tk.Radiobutton(self, text="Bajos", variable=self.ingresos, value="Ba", bg=color).grid(row=6, column=0)
-        tk.Radiobutton(self, text="Medios", variable=self.ingresos, value="Me", bg=color).grid(row=6, column=1)
-        tk.Radiobutton(self, text="Altos", variable=self.ingresos, value="Al", bg=color).grid(row=6, column=2)
-        tk.Radiobutton(self, text="N/A", variable=self.ingresos, value="n", bg=color).grid(row=6, column=3)
-
-
-        ttk.Button(self, text="Enviar", command=self.cierre)
-        self.edad.set("n")
-        self.sexo.set("n")
-        self.ingresos.set("n")
-    
-    def cierre(self):
-        self.grab_set()
-        self.wait_window()
-        return [self.sexo.get(), self.edad.get(), self.ingresos.get()]
 
 
 if __name__ == "__main__":
