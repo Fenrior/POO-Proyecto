@@ -23,7 +23,7 @@ class MyApp(tk.Toplevel):
         fonta2 = tf.Font(size=3)
         self.config(bg="#3cb371")
         self.title("Mindfulness")
-        self.options = ["Ansiedad", "Depresion"]
+        self.options = ["Ansiedad", "Depresion", "Trastorno de Panico"]
         self.geometry("600x480")
         self.iconbitmap("resources/meditation.ico")
 
