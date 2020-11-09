@@ -50,12 +50,12 @@ class Instructions(tk.Toplevel):
         """Inicializar objeto que muestra las instrucciones del programa"""
         super().__init__()
         self.grab_set()
-        self.geometry("400x420")
+        self.geometry("400x450")
         self.iconbitmap("resources/meditation.ico")
         self.txt = tk.Text(self, width=280, height=400)
         self.txt.pack()
         self.description = """
-Bienveni@ a Mindullness GT
+Bienveni@ a MindullnessGT
 ----------------------------
 
 Acerca de nosotros:
@@ -64,8 +64,9 @@ Universidad del Valle que buscan proveer un
 medio para identificar y tratar enfermedades
 mentales
 
-El metodo para la identificacion de la enfermedad
-esta basado en fuentes confiables:
+El metodo para la identificacion de las 
+enfermedades esta basado en fuentes 
+confiables:
 -INVENTARIO DE ANSIEDAD DE BECK (BAI)
 -INVENTARIO DE DEPRESIÓN DE BECK (BAI)
 
