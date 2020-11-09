@@ -3,6 +3,7 @@
 
 import tkinter as tk
 import tkinter.font as tf
+import tkinter.ttk as ttk
 from PIL import ImageTk, Image
 
 
@@ -22,20 +23,20 @@ class Second(tk.Toplevel):
         fets = tf.Font(family="Verdana", size=10)
         self.geometry("800x580")
         self.iconbitmap("resources/meditation.ico")
-        asa = tk.Label(self, text="        ", bg="#666699").grid(row=1, column=1)
+        tk.Label(self, text="        ", bg="#666699").grid(row=1, column=1)
         self.config(bg="#666699")
-        self.label = tk.Label(self, text="Información", font=fonta, bg="#666699").grid(row=0, column=0)
-        self.label2 = tk.Label(self, text=f"Diagnóstico: {nombre_enfermedad}", bg="#666699").grid(row=1, column=0)
+        tk.Label(self, text="Información", font=fonta, bg="#666699").grid(row=0, column=0)
+        tk.Label(self, text=f"Diagnóstico: {nombre_enfermedad}", bg="#666699").grid(row=1, column=0)
         self.fraa2 = tk.Frame(self)
 
         for i in range(2, 7):
             lj = tk.Label(self.fraa2, text=f"{info[i-2]}", bg="#666699", fg="#ffffff", justify=tk.LEFT)
             lj.grid(row=i + 1, column=0, sticky=tk.W+tk.E)
-        self.lb = tk.Label(self.fraa, text="Tratamiento Propuesto: ", font=fets, bg="#666699").grid(row=0, column=0)
+        tk.Label(self.fraa, text="Tratamiento Propuesto: ", font=fets, bg="#666699").grid(row=0, column=0)
         for i in range(1, 16):
             lj = tk.Label(self.fraa, text=f"{info[i+5]}", bg="#666699", fg="#ffffff", justify=tk.LEFT)
             lj.grid(row=i+1, column=0, columnspan=5, sticky=tk.W+tk.E)
-        self.link = tk.Label(self.fraa, font=fonta1, text="www.oms.org/gethelp", foreground="lightblue",
+        tk.Label(self.fraa, font=fonta1, text="www.oms.org/gethelp", foreground="lightblue",
                              bg="#666699", justify=tk.LEFT).grid(row=1, column=0)
         # self.link2 = tk.Label(self.fraa, font=fonta1, text="https://meditacionguatemala.org/", foreground="lightblue",
         # bg="#666699").grid(row=1, column=0)
@@ -58,6 +59,28 @@ class Second(tk.Toplevel):
             llaves = list(self.mas_ventanas.keys()).copy()
             nv = Second(llaves[0], self.mas_ventanas[llaves[0]], self.mas_ventanas)
             nv.mainloop()
+
+class RespuestasCuestionario(tk.Toplevel):
+    def __init__(self, diagnosticos, lectura, color="#3178eb"):
+        super().__init__()
+        self.grab_set()
+        self.title("Diagnosticos")
+        self.config(bg=color)
+        self.iconbitmap("resources/meditation.ico")
+        font3 = tf.Font(size=12, family="Courier", weight="bold")
+        tk.Label(self, text="Diagnosticos: ", font=font3, foreground="white", bg=color).grid(row=0, column=0)
+        self.kk = ttk.Combobox(self, values=diagnosticos)
+        self.kk.bind("<<ComboboxSelected>>", self.ver)
+        self.kk.grid(row=0, column=1)
+        self.lectura = lectura
+
+    def ver(self,*args):
+        seleccion = self.kk.get()
+        options = ["Ansiedad", "Depresion", "Trastorno de Panico"]
+        if seleccion in options:
+            info = self.lectura.ver_diagnostico(True, seleccion)
+            ventana_diagnostico = Second(seleccion, info[seleccion], info)
+            ventana_diagnostico.mainloop()
 
 
 # No ejecutar como archivo principal, en si no proveer nombre enfermedad, informacion enfermedad y informacion restante

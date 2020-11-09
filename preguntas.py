@@ -70,9 +70,10 @@ class MyApp(tk.Toplevel):
         info = self.lectura.ver_diagnostico()
         self.lectura.grabar_info(self.user,'|'.join(list(info.keys())))
         self.lectura.set_to_zero()
-        llaves = list(info.keys()).copy()
-        ventana_diagnostico = rt.Second(llaves[0], info[llaves[0]], info)
-        ventana_diagnostico.mainloop()
+        #llaves = list(info.keys()).copy()
+        rt.RespuestasCuestionario(list(info.keys()).copy(), self.lectura).ver()
+        #ventana_diagnostico = rt.Second(llaves[0], info[llaves[0]], info)
+        #ventana_diagnostico.mainloop()
 
     def ver2(self, *args):
         """Visualizar enfermedad cuando el paciente sabe que es lo que tiene"""
