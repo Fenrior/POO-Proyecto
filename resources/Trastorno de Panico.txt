@@ -3,7 +3,7 @@ de panico, que son recurrentes y a menudo inesperados. Ademas,
 al menos un ataque de panico es seguido por un mes o mas de la 
 persona que teme que tendrá más ataques y que haga que cambie su 
 comportamiento, lo que a menudo incluye evitar situaciones que puedan inducir un ataque.
-PRACTICA UNA TECNICA DE RESPIRACION: Los ataques de panico van acompañados a menudo de 
+->PRACTICA UNA TECNICA DE RESPIRACION: Los ataques de panico van acompañados a menudo de 
 hiperventilacion y dificultades para mantener un ritmo respiratorio normal. Asi que 
 aprender una tecnica de respiracion puede resolver la crisis en unos pocos minutos. 
 Intenta respirar lenta y regularmente y disponte a realizar el siguiente ejercicio. 
@@ -13,10 +13,10 @@ Al inspirar, deja que el aire fluya hacia el vientre, sin forzarlo. Siente como 
 Respira lentamente y con regularidad. Inspira por la nariz y espira por la boca.
 Haz que cada inspiracion y cada exhalacion dure 3 segundos. Despues de unas cuantas 
 respiración alarga el tiempo a 4 segundos y despues a 5. Respira así durante 5 minutos.
-REDUCE LOS ESTIMULOS: Cuando sientas que se avecina un ataque, es una buena idea limitar los 
+->REDUCE LOS ESTIMULOS: Cuando sientas que se avecina un ataque, es una buena idea limitar los 
 estimulos sensoriales que estás experimentando tanto como puedas. Intente encontrar un espacio 
 oscuro y tranquilo donde puedas practicar las tecnicas de respiración y relajacion. ESCUCHA ALGO:
 Reducir los estimulos concentrandose en un sentido. El oído es muy eficaz.
 Ten preparada una playlist con tus temas preferidos para conquistar la tranquilidad.
-TIRA LOS PENSAMIENTOS: toma unas hojas y un lapiz, anota los pensamientos que te preocupan, arruga el papel y tiralo. 
-EVITA LA CAFEINA: Esta es una medida preventiva. 
+->TIRA LOS PENSAMIENTOS: toma unas hojas y un lapiz, anota los pensamientos que te preocupan, arruga el papel y tiralo. 
+->EVITA LA CAFEINA: Esta es una medida preventiva. 
