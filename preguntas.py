@@ -6,6 +6,7 @@ import tkinter.font as tf
 import tkinter.ttk as ttk
 from PIL import ImageTk, Image
 import resultados as rt
+import stats
 
 # Clases para la parte grafica de las preguntas de la aplicacion
 # Toma como argumento un objeto LecturaArchivos para mostrar e interactuar
@@ -28,7 +29,7 @@ class MyApp(tk.Toplevel):
         self.iconbitmap("resources/meditation.ico")
 
         # ------------------Question Configurations------------------------------ #
-        self.tituloCuestionario = tk.Label(self, text="Cuestionario", bg="#3cb371", font=font3, foreground="#800020").grid(row=2, column=1, columnspan=2)
+        tk.Label(self, text="Cuestionario", bg="#3cb371", font=font3, foreground="#800020").grid(row=2, column=1, columnspan=2)
         self.fran = Questions(self, lectura)
         self.scroll_canvas = tk.Canvas(self, height=340, width=10, bg="#5181a9")
         self.scroll_canvas.pack_propagate(0)
@@ -39,12 +40,12 @@ class MyApp(tk.Toplevel):
 
         # ----------------------------------------------------------------------- #
 
-        self.gg = tk.Label(self, text="Bienvenido a Mindfulness Application", bg="#3cb371", foreground="#a83285", font=fonta).grid(row=0, columnspan=7)
+        tk.Label(self, text="Bienvenido a Mindfulness Application", bg="#3cb371", foreground="#a83285", font=fonta).grid(row=0, columnspan=7)
 
-        self.ok = tk.Label(self, text="Sabe que es lo que tiene: ", bg="#3cb371").grid(column=6, row=1)
-        self.ok2 = tk.Label(self, text="    ", bg="#3cb371").grid(column=5, row=1)
-        self.ok3 = tk.Label(self, text="   ", bg="#3cb371").grid(column=0, row=1)
-        self.ok4 = tk.Label(self, text="   ", bg="#3cb371", font=fonta2).grid(column=0, row=4)
+        tk.Label(self, text="Sabe que es lo que tiene: ", bg="#3cb371").grid(column=6, row=1)
+        tk.Label(self, text="    ", bg="#3cb371").grid(column=5, row=1)
+        tk.Label(self, text="   ", bg="#3cb371").grid(column=0, row=1)
+        tk.Label(self, text="   ", bg="#3cb371", font=fonta2).grid(column=0, row=4)
         self.kk = ttk.Combobox(self, values=self.options)
         self.kk.bind("<<ComboboxSelected>>", self.ver2)
 
@@ -55,7 +56,8 @@ class MyApp(tk.Toplevel):
         self.canv.grid(row=3, column=6)
 
         self.fran.grid(row=3, column=1, columnspan=4)
-        self.submit = ttk.Button(self, text="Obtener Diagnóstico", command=self.ver).grid(row=5, column=3, columnspan=2)
+        self.submit = ttk.Button(self, text="Obtener Diagnóstico", command=self.ver).grid(row=5, column=3, columnspan=2, sticky=tk.NW+tk.SE)
+        ttk.Button(self, text="Ver Historial", command=self.hist).grid(row=5, column=1, columnspan=2, sticky=tk.NW+tk.SE)
         self.kk.grid(row=2, column=6)
         self.scroll_canvas.grid(row=3, column=5, padx=(0, 50))
 
@@ -80,6 +82,10 @@ class MyApp(tk.Toplevel):
             info = self.lectura.ver_diagnostico(True, seleccion)
             ventana_diagnostico = rt.Second(seleccion, info[seleccion], info)
             ventana_diagnostico.mainloop()
+    
+    def hist(self):
+        lh = stats.Historial("resources/datos.db")
+        lh.ver_historial(self.user[0])
 
 
 # Clase que muestra las preguntas en pantalla al usuario

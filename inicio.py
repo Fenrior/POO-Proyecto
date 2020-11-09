@@ -30,19 +30,19 @@ class App(tk.Tk):
         self.info = ttk.Button(self, text="Información", command=self.instruct).grid(row=3, column=5)
         self.cuestionario = ttk.Button(self, text="Cuestionario", command=self.preguntas).grid(row=3, column=6)
 
-        self.lb = tk.Label(self, text="     ", bg="#5a84cd", font=font).grid(row=0, column=0)
-        self.lb1 = tk.Label(self, text="     ", bg="#5a84cd", font=font).grid(row=2, column=0)
+        tk.Label(self, text="     ", bg="#5a84cd", font=font).grid(row=0, column=0)
+        tk.Label(self, text="     ", bg="#5a84cd", font=font).grid(row=2, column=0)
 
     def instruct(self):
         """Mostrar instrucciones a pantalla"""
-        inst = Instructions()
+        Instructions()
 
     def preguntas(self):
         """Generar GUI con el cuestionario, pasando objeto LecturaArchivos"""
         ol = usr.Login(self)
         ingreso = ol.inicio()
         if ingreso[0]:
-            preguntas = pg.MyApp(self.lectura, ingreso[0])
+            pg.MyApp(self.lectura, ingreso[0])
 
 
 class Instructions(tk.Toplevel):
@@ -50,16 +50,24 @@ class Instructions(tk.Toplevel):
         """Inicializar objeto que muestra las instrucciones del programa"""
         super().__init__()
         self.grab_set()
-        self.geometry("345x300")
+        self.geometry("400x420")
         self.iconbitmap("resources/meditation.ico")
-        self.txt = tk.Text(self, width=250, height=260)
+        self.txt = tk.Text(self, width=280, height=400)
         self.txt.pack()
         self.description = """
 Bienveni@ a Mindullness GT
 ----------------------------
 
-Acerca de nosotros.......
-Nuestro propósito........
+Acerca de nosotros:
+Somos un grupo de estudiantes de la
+Universidad del Valle que buscan proveer un
+medio para identificar y tratar enfermedades
+mentales
+
+El metodo para la identificacion de la enfermedad
+esta basado en fuentes confiables:
+-INVENTARIO DE ANSIEDAD DE BECK (BAI)
+-INVENTARIO DE DEPRESIÓN DE BECK (BAI)
 
 Instrucciones:
     1. Llenar Cuestionario

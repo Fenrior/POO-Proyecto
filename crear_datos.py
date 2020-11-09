@@ -116,6 +116,23 @@ class BaseDatos:
             cursor.execute("SELECT * FROM logs")
             for row in cursor.fetchall():
                 print(row)
+    
+    def ver_usuario(self, user_name):
+        """Ver el progreso de un usuario"""
+        connected = self.create_connection()
+        t = (user_name,)
+        if connected:
+            cursor = connected.cursor()
+            cursor.execute(f"""SELECT
+                                    fecha, 
+                                    diagnostico, 
+                                    nombre 
+                                FROM 
+                                    logs 
+                                WHERE 
+                                    nombre=?""", t)
+        return cursor.fetchall()
+            
  
  
 if __name__ == "__main__":
