@@ -65,7 +65,7 @@ class Second(tk.Toplevel):
     def search(self, e):
         try:
             webbrowser.open(e.widget["text"])
-        except Exception as es:
+        except Exception:
             pass
     
         
