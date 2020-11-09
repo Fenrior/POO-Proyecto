@@ -70,7 +70,7 @@ class BaseDatos:
                     cursor.execute(sql, user)
                     connected.commit()
                     connected.close()
-                    return "Usuario creado correctemente", (nombre, clave, sexo, edad, ingresos)
+                    return "Usuario creado correctamente", (nombre, clave, sexo, edad, ingresos)
                 else:
                     return "Usuario ya existe", ()
             else:

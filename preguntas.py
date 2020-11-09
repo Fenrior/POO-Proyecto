@@ -7,6 +7,10 @@ import tkinter.ttk as ttk
 from PIL import ImageTk, Image
 import resultados as rt
 import stats
+import tkinter.filedialog as fd
+import tkinter.messagebox as mb
+import crear_datos
+import sqlite3 as db
 
 # Clases para la parte grafica de las preguntas de la aplicacion
 # Toma como argumento un objeto LecturaArchivos para mostrar e interactuar
@@ -58,6 +62,7 @@ class MyApp(tk.Toplevel):
         self.fran.grid(row=3, column=1, columnspan=4)
         self.submit = ttk.Button(self, text="Obtener Diagnóstico", command=self.ver).grid(row=5, column=3, columnspan=2, sticky=tk.NW+tk.SE)
         ttk.Button(self, text="Ver Historial", command=self.hist).grid(row=5, column=1, columnspan=2, sticky=tk.NW+tk.SE)
+        tk.Button(self, text="Compartir informacion", command=self.share, bg="#34c3eb").grid(row=5, column=6, sticky=tk.NW+tk.SE)
         self.kk.grid(row=2, column=6)
         self.scroll_canvas.grid(row=3, column=5, padx=(0, 50))
 
@@ -87,6 +92,24 @@ class MyApp(tk.Toplevel):
     def hist(self):
         lh = stats.Historial("resources/datos.db")
         lh.ver_historial(self.user[0])
+    
+    def share(self):
+        directory = fd.askdirectory(title="Nuevo Direcotrio", initialdir="/", mustexist=True, parent=self)
+        if directory:
+            try:
+                conn = db.connect("resources/datos.db")
+                backup = crear_datos.BaseDatos(directory+"/share.db")
+                backup.create_registry_table()
+                backup.create_user_table()
+                bck = db.connect(directory+"/share.db")
+                with bck:
+                    conn.backup(bck)
+                bck.close()
+                conn.close()
+            except Exception:
+                pass
+            else:
+                mb.askquestion("Compartir", message=f"Para compartir la informacion envia el archivo:\n\n{directory}/share.db\n\nA:\nlav19205@uvg.edu.gt, pai19155@uvgedu.gt, \nort18248@uvg.edu.gt o cor20238@uvg.edu.gt\n\nGracias!", parent=self)
 
 
 # Clase que muestra las preguntas en pantalla al usuario

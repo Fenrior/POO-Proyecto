@@ -69,6 +69,7 @@ enfermedades esta basado en fuentes
 confiables:
 -INVENTARIO DE ANSIEDAD DE BECK (BAI)
 -INVENTARIO DE DEPRESIÓN DE BECK (BAI)
+-DIAGNOSTICO DE DSM-5
 
 Instrucciones:
     1. Llenar Cuestionario
