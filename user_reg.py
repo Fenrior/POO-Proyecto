@@ -1,6 +1,7 @@
 
 
 import tkinter as tk
+import time
 import tkinter.ttk as ttk
 import crear_datos as c_datos
 
@@ -33,8 +34,14 @@ class Login(tk.Toplevel):
     
     def ingresar(self):
         base_datos = c_datos.BaseDatos(self.db)
-        self.mostrar.set(base_datos.user_login(self.usuario.get(), self.clave.get())[1])
-    
+        info = base_datos.user_login(self.usuario.get(), self.clave.get())[1]
+        self.mostrar.set(info)
+        self.update_idletasks()
+        if info == "Acceso concedido":
+            time.sleep(0.8)
+            self.destroy()
+            
+
     def sign(self):
         sig = Signin(self, self.db)
         sg = sig.inicio()
@@ -96,7 +103,12 @@ class Signin(tk.Toplevel):
     
     def crear(self):
         base_datos = c_datos.BaseDatos(self.db)
-        self.mostrar.set(base_datos.user_signin(self.usuario.get(), self.clave.get(), self.sexo.get(), self.edad.get(), self.ingresos.get())[0])
+        info = base_datos.user_signin(self.usuario.get(), self.clave.get(), self.sexo.get(), self.edad.get(), self.ingresos.get())[0]
+        self.mostrar.set(info)
+        self.update_idletasks()
+        if info == "Usuario creado correctamente":
+            time.sleep(1)
+            self.destroy()
         
         
 
