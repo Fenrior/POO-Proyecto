@@ -1,6 +1,6 @@
 import sys
 import sqlite3
-from sqlite3 import Error
+
 
 # Clase para manejar datos de usuarios
 class BaseDatos:
@@ -13,7 +13,7 @@ class BaseDatos:
         connection = None
         try:
             connection = sqlite3.connect(self.file)
-        except Error as e:
+        except Exception as e:
             print(e)
         return connection
 
